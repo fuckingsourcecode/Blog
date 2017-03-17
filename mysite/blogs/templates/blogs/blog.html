@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+    	<dl>
+    		<dt>{{article.title}}</dt>
+    		<dd>{{article.content}}</dd>
+    	</dl>
+    	{% load comments %}
+
+    	{% get_comment_count for article as comment_count %}
+    	<p>Comments({{ comment_count }})</p>
+
+    	{% get_comment_form for article as form %}
+    	<form action="{% comment_form_target %}" method="post" accept-charset="utf-8">
+    		{% csrf_token %}
+			
+    		<div>
+    			<label for="id_name">Name:</label>
+    			{{ form.name }}
+    		</div>
+    		<div>
+    			<label for="id_email">Email:</label>
+    			{{ form.email }}
+			</div>
+    		<div>
+    			<label for="id_comment">Comment:</label>
+    			{{ form.comment }}
+    		</div>
+    		{{ form.content_type }}
+			{{ form.object_pk }}
+			{{ form.timestamp }}
+			{{ form.security_hash }}
+    		<input type="hidden" name="next" value="/blogs/blog/{{ article.id }}">
+    		<input type="submit" value="Comment">
+    	</form>
+    	<h1>all comments</h1>
+    	{% render_comment_list for article %}
+    </body>
+</html>
