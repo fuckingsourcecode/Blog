@@ -1,0 +1,17 @@
+{% extends 'account_base.html' %}
+{% block content%}
+	<form method="post" accept-charset="utf-8">
+		{% csrf_token %}
+    	<p>
+    		<label for="id_title">title:</label> 
+    		<input class="form-control" id="id_title" name="title" required="" type="text" value="{{ form.title }}">
+    	</p>
+    	<textarea id="content" name="editor1">
+    		{{ form.content }}
+    	</textarea>
+    	<script type="text/javascript">
+    		CKEDITOR.replace( 'editor1' , {uiColor: '#9AB8F3'});
+    	</script>
+    	<input type="submit" value="submit" name="">
+	</form>    
+{% endblock %}

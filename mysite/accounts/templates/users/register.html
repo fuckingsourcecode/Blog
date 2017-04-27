@@ -1,28 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-    </head>
-    <body>
-    	<form action="" method="post" accept-charset="utf-8">
-    		{% csrf_token %}
-    		<p>
-				<label for="email">email:</label>
-				<input type="email" id="email" name="email" required>
-			</p>
-			<p>
-				<label for="password">password:</label>
-				<input type="password" id="password" name="password" required>
-			</p>
-			<p>
-				<label for="confirm_password">confirm_password:</label>
-				<input type="password" id="confirm_password" name="confirm_password" required>
-			</p>
-			<p>
-				<label for="mobile">mobile:</label>
-				<input type="password" id="mobile" name="mobile" maxlength="11" required>
-			</p>
-			<input type="submit" value="Create the account">
-		</form>
-    </body>
-</html>
+{% extends 'account_base.html' %}
+{% block content %}
+	<form action="" method="post" accept-charset="utf-8">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="Create the account">
+        <a href="{% url 'login' %}">has an account?</a>
+	</form>
+{% endblock %}

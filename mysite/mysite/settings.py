@@ -26,7 +26,7 @@ SECRET_KEY = '-d=d0=0s#ws+r@&(g24ijh%ft4(jn(4@yquvyt5r1mb-@g%3pc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'www.abc.com']
 
 
 # Application definition
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_comments',
+    'ckeditor',
+    'ckeditor_uploader',
     'blogs',
     'accounts',
 ]
@@ -126,8 +128,16 @@ USE_L10N = True
 
 USE_TZ = False
 
-
+# AUTH_USER_MODEL = 'accounts.MyUser'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
+
+# ckeditor upload
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = 'pillow'
+CKEDITOR_JQUERY_URL = '/static/jquery-3.1.1.min.js'

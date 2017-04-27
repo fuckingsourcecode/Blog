@@ -1,0 +1,23 @@
+{% extends 'account_base.html'%}
+{% block content%}
+	<button class="btn btn-info"><a href="/blogs/create">create</a></button>
+	<table class="table table-hover table-bordered">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>title</th>
+				<th>delete</th>
+			</tr>
+		</thead>
+		{% for value in blogs %}
+			<tbody>
+				<tr>
+					<td>{{ value.num }}</td>
+					<td><a href="#">{{ value.title }}</a></td>
+					<td><a href="{% url 'delete' value.id %}">delete</a></td>
+					<td><a href="{% url 'update' value.id %}">update</a></td>
+				</tr>
+			</tbody>
+		{% endfor %}
+	</table>
+{% endblock %}

@@ -1,0 +1,13 @@
+    {% extends 'blog_base.html' %}
+    {% block content %}
+    	<ul>
+    		{% for value in blog_list %}
+    			<li>
+                    <a href="{% url 'article' value.id %}">{{value.title}}</a>
+                    <a href="{% url 'update' value.id %}">update</a>
+                    <a href="{% url 'delete' value.id %}">delete</a>
+                    <a href="{% url 'create' %}">create</a>
+                </li>
+    		{% endfor %}
+		</ul>
+    {% endblock %}

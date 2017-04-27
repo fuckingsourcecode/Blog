@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="{% static '/bootstrap/css/bootstrap.min.css'%}">
+        <script type="text/javascript" src="{%static '/jquery-3.1.1.min.js' %}"></script>
+        <script type="text/javascript" src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>
+        <script type="text/javascript" src="{% static '/ckeditor_full/ckeditor.js' %}"></script>
+    </head>
+    <body>
+
+		<header id="header" class="">
+			<div>
+				<strong><em>django blogs</em></strong>
+				<span>
+					{% if request.session.email %}
+						[<a href="/accounts/blog">personal center</a>] 
+					{% else %}
+						[<a href="/accounts/login">login</a>*<a href="/accounts/register">register</a>] 
+					{% endif %}
+				</span>
+			</div>
+		</header><!-- /header -->
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div>
+					<ul class="nav navbar-nav navbar-inverse navbar-fixed-top">
+						<li><a href="#">FrontEnd</a></li>
+						<li><a href="#">BackEnd</a></li>
+						<li><a href="#">ServerEnd</a></li>
+						<li><a href="#">Other</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<article>
+			<aside>
+				<ul>
+					<li><a href=""><input type="radio" value="0" name="order">hot</a></li>
+					<li><a href=""><input type="radio" value="1" name="order">credit</a></li>
+				</ul>
+			</aside>
+			<section class="content clearfix">
+				<div>
+					{% block content %}
+						<div>这里是默认内容，所有继承自这个模板的，如果不覆盖就显示这里的默认内容。</div>
+					{% endblock %}
+				</div>
+			</section>
+		</article>
+    </body>
+</html>
+<style type="text/css" media="screen">
+	a {
+		text-decoration: none;
+	}
+	#header div {
+		display: flex;
+		justify-content: space-between;
+	}
+	li {
+		list-style: none;
+	}
+	.content {
+		float: left;
+		margin-left: 80px;
+		margin-top: -55px;
+	}
+</style>

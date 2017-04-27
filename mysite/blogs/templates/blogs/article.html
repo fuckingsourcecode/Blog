@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="{% static '/bootstrap/css/bootstrap.min.css'%}">
+        <script type="text/javascript" src="{%static '/jquery-3.1.1.min.js' %}"></script>
+        <script type="text/javascript" src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>
+    </head>
+    <body>
+
+        <header id="header" class="">
+            <div>
+                <strong><em>django blogs</em></strong>
+                <span>
+                    {% if request.session.email %}
+                        [<a href="/accounts/blog">personal center</a>] 
+                    {% else %}
+                        [<a href="/accounts/login">login</a>*<a href="/accounts/register">register</a>] 
+                    {% endif %}
+                </span>
+            </div>
+        </header><!-- /header -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div>
+                    <ul class="nav navbar-nav navbar-inverse navbar-fixed-top">
+                        <li><a href="#">FrontEnd</a></li>
+                        <li><a href="#">BackEnd</a></li>
+                        <li><a href="#">ServerEnd</a></li>
+                        <li><a href="#">Other</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <article>
+            <section class="content">
+                <div>
+                    <dl>
+                        <dt><h2 >{{article.title}}</h2></dt>
+                        {% autoescape off %}
+                            <dd>{{article.content}}</dd>
+                        {% endautoescape %}
+                    </dl>
+                    {% if request.session.email is not None %} 
+                        {% load comments %}
+
+                        {% get_comment_count for article as comment_count %}
+                        <p>Comments({{ comment_count }})</p>
+
+                        {% get_comment_form for article as form %}
+                        <form action="{% comment_form_target %}" method="post" accept-charset="utf-8">
+                            {% csrf_token %}
+                            
+                            <div>
+                                <!-- <label for="id_email">Email:</label> -->
+                                <input id="id_email" name="email" required="" type="hidden" value="{{ request.session.email }}">
+                            </div>
+                            <div>
+                                <label for="id_comment">Comment:</label>
+                                {{ form.comment }}
+                            </div>
+                            {{ form.content_type }}
+                            {{ form.object_pk }}
+                            {{ form.timestamp }}
+                            {{ form.security_hash }}
+                            <input type="hidden" name="next" value="/blogs/blog/{{ article.id }}">
+                            <input type="submit" value="Comment">
+                        </form>
+                        <h1>all comments</h1>
+                        {% render_comment_list for article %}
+                    {% else %}
+                        <a href="/accounts/login">login</a>
+                    {% endif %}
+                </div>
+            </section>
+        </article>
+    </body>
+</html>
+<style type="text/css" media="screen">
+    body {
+        padding: 5px;
+        background-color: #7d8b8d;
+    }
+    a {
+        text-decoration: none;
+    }
+    #header div {
+        display: flex;
+        justify-content: space-between;
+    }
+    li {
+        list-style: none;
+    }
+    .content {
+        /*position: relative;*/
+        margin: 0px 40px;
+        padding: 10px;
+        background-color: #fff;
+    }
+</style>
