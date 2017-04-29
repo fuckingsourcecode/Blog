@@ -1,15 +1,13 @@
-{% extends 'account_base.html'%}
+{% extends 'account_base.html' %}
+{% block content %}
+	s 'account_base.html'%}
 {% block content%}
-	<a href="/blogs/create" class="btn btn-info">create</a>
 	<table class="table table-hover table-bordered">
 		<thead>
 			<tr>
 				<th>#</th>
 				<th>标题</th>
 				<th>类型</th>
-				<th>删除</th>
-				<th>更改</th>
-				<th>发布</th>
 			</tr>
 		</thead>
 		{% for value in blogs %}
@@ -18,11 +16,15 @@
 					<td>{{ value.num }}</td>
 					<td><a href="/blogs/article/{{value.id}}">{{ value.title }}</a></td>
 					<td><a href="/blogs/article/{{value.id}}">{{ value.blog_type }}</a></td>
-					<td><a href="{% url 'delete' value.id %}">删除</a></td>
-					<td><a href="{% url 'update' value.id %}">更改</a></td>
-					<td><a href="{% url 'update' value.id %}">更改</a></td>
 				</tr>
 			</tbody>
 		{% endfor %}
 	</table>
+	<script type="text/javascript">
+		window.onload = function () {
+			// body...
+
+		}
+	</script>
+{% endblock %}
 {% endblock %}

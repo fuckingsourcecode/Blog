@@ -8,18 +8,24 @@ from django import forms
 # ckeditor
 from ckeditor_uploader.fields import RichTextUploadingField
 from ckeditor.fields import RichTextField
-from .models import Blog
+from .models import Blog, BlogType, Comment
+from accounts.models import User
 # Create your views here.
 
 class CreateForm(forms.Form):
 	title = forms.CharField(label='title', widget=forms.widgets.TextInput(attrs={'class': 'form-control'}), required=True)
 	# content = forms.CharField(label='content', widget=forms.widgets.Textarea(attrs={'class': 'form-control'}), required=True)
 	content = RichTextField()
-
+	bt = BlogType.objects.all()
+	c= []
+	for i in bt:
+		c.append((i.id, i.blog_type))
+	blog_type = forms.IntegerField(label='type', widget=forms.Select(choices=c, attrs={'class': 'form-control'}))
 
 def index(request):
 	"""docstring for index"""
-	# blog_list = Blog.objects.all()
+	blog_list = Blog.objects.all()
+	
 	return render(request, 'blogs/base.html', {})
 
 def articles(request):
@@ -27,9 +33,10 @@ def articles(request):
 	return render(request, 'blogs/articles.html', {'blog_list': blog_list})
 
 def article(request, id):
-	print request.session.get('email')
+	# print request.session.get('email')
 	article_content = get_object_or_404(Blog, pk=id)
-	return render(request, 'blogs/article.html', {'article': article_content})
+	cm = Comment.objects.filter(blog=id)
+	return render(request, 'blogs/article.html', {'article': article_content, 'comment':cm})
 
 # create blog
 def create_myblog(request):
@@ -39,12 +46,14 @@ def create_myblog(request):
 	error = []
 	if request.method == "POST":
 		form = CreateForm(request.POST)
+		print request.POST
 		if form.is_valid():
 			title = form.cleaned_data['title']
 			content = request.POST['editor1']
-			blog = Blog.objects.create(title=title, content=content)
+			blog_type = form.cleaned_data['blog_type']
+			blog = Blog.objects.create(title=title, content=content, blog_type=BlogType.objects.get(id=blog_type),author=User.objects.get(email=request.session.get('email')))
 			blog.save()
-			return HttpResponseRedirect('/blogs/articles')
+			return HttpResponseRedirect('/accounts/blog')
 		else:
 			error.append('finish all informatioin')
 	else:
@@ -57,7 +66,7 @@ def delete_myblog(request, id):
 		return HttpResponseRedirect('/accounts/login')
 	Blog.objects.get(id=id).delete()
 	blog_list = Blog.objects.all()
-	return render(request, 'blog/articles', {'blog_list': blog_list})
+	return render(request, 'accounts/blog', {'blog_list': blog_list})
 def update_myblog(request, id):
 	if request.session.get('email') is None or request.session.get('email') == '':
 		return HttpResponseRedirect('/accounts/login')
@@ -69,5 +78,49 @@ def update_myblog(request, id):
 		blog.title = title
 		blog.content = content
 		blog.save()
-		return HttpResponseRedirect('/blogs/articles')
+		return HttpResponseRedirect('/blogs/blog')
 	return render(request, 'blogs/update.html', {'form': form})
+
+def fiction(request, id):
+	blogs = Blog.objects.filter(blog_type=id)
+	return render(request, 'blogs/fiction.html', {'blogs': blogs})
+
+def good(request, id):
+	blog = Blog.objects.get(id=id)
+	blog.hot += 1;
+	blog.save()
+	return HttpResponseRedirect('/blogs/blog/'+id)
+# def publish_myblog(request, id, status):
+# 	if request.session.get('email') is None or request.session.get('email') == '':
+# 		return HttpResponseRedirect('/accounts/login')
+# 	blog = get_object_or_404(Blog, pk=id)
+# 	blog.published = status
+# 	blog.save()
+# 	return HttpResponseRedirect('/accounts/blog')
+
+
+# ***************************comment**********************************
+def create_comment(request, id):
+	if request.session.get('email') is None or request.session.get('email')=='':
+		request.session.url = request.get_full_path()
+		return HttpResponseRedirect('/accounts/login')
+	blog = get_object_or_404(Blog, pk=id)
+	cm = Comment.objects.create(commentor=User.objects.get(email=request.session.get('email')), blog=blog, comment=request.POST['comment'])
+	return HttpResponseRedirect('/blogs/blog/'+id)
+
+def get_comment(request, id):
+	blog = get_object_or_404(Blog, pk=id)
+	cm = Comment.objects.filter(blog=blog)
+	for i in cm:
+		print i.comment, i.commentor
+	return HttpResponseRedirect('/blogs/blog/'+id)
+	return render(request, 'blogs/comment.html', {})
+
+def delete_comment(request, id):
+	# blog = get_object_or_404(Blog, pk=id)
+	cm = Comment.objects.get(id=id).delete()
+	# for i in cm:
+	# 	print i.comment, i.commentor
+	return HttpResponseRedirect('/blogs/blog/'+id)
+	return render(request, 'blogs/comment.html', {})
+

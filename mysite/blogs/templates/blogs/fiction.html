@@ -10,14 +10,14 @@
             <th>赞</th>
         </tr>
     </thead>
-    {% for value in blog_list %}
+    {% for value in blogs %}
         <tbody>
             <tr>
                 <td>{{ value.num }}</td>
                 <td><a href="/blogs/article/{{value.id}}">{{ value.title }}</a></td>
                 <td><a href="{% url 'update' value.id %}">{{ value.blog_type }}</a></td>
                 <td><a href="{% url 'delete' value.id %}">{{ value.author }}</a></td>
-                <td><a href="#">{{ value.hot }}</a></td>
+                <td><a href="{% url 'update' value.id %}">{{ value.hot }}</a></td>
             </tr>
         </tbody>
     {% endfor %}

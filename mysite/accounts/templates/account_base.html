@@ -13,17 +13,23 @@
 		<header id="header" class="">
 			<div>
 				<strong><em>django blogs</em></strong>
-				<span>[<a href="/accounts/login">login</a>*<a href="/accounts/register">register</a>]</span>
+				<span>
+                    {% if request.session.email %}
+                        [<a href="/accounts/logout">注销</a>] 
+                    {% else %}
+                        [<a href="/accounts/login">登录</a>*<a href="/accounts/register">注册</a>] 
+                    {% endif %}
+                </span>
 			</div>
 		</header><!-- /header -->
 		<nav class="navbar navbar-default">
 			<div class="container-fluid">
 				<div>
 					<ul class="nav navbar-nav navbar-inverse navbar-fixed-top">
-						<li><a href="/blogs/articles">home</a></li>
-						<li><a href="#">blog</a></li>
-						<li><a href="#">infomation</a></li>
-						<li><a href="#">Other</a></li>
+						<li><a href="/blogs/articles">首页</a></li>
+						<li><a href="{% url 'blog' %}">博客</a></li>
+						<li><a href="{% url 'information' %}">个人信息</a></li>
+						<li><a href="#">其他</a></li>
 					</ul>
 				</div>
 			</div>

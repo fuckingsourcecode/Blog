@@ -15,9 +15,9 @@
 				<strong><em>django blogs</em></strong>
 				<span>
 					{% if request.session.email %}
-						[<a href="/accounts/blog">personal center</a>] 
+						[<a href="/accounts/blog">个人中心</a>] 
 					{% else %}
-						[<a href="/accounts/login">login</a>*<a href="/accounts/register">register</a>] 
+						[<a href="/accounts/login">登录</a>*<a href="/accounts/register">注册</a>] 
 					{% endif %}
 				</span>
 			</div>
@@ -26,21 +26,16 @@
 			<div class="container-fluid">
 				<div>
 					<ul class="nav navbar-nav navbar-inverse navbar-fixed-top">
-						<li><a href="#">FrontEnd</a></li>
-						<li><a href="#">BackEnd</a></li>
-						<li><a href="#">ServerEnd</a></li>
-						<li><a href="#">Other</a></li>
+						<li><a href="{% url 'articles' %}">所有</a></li>
+						<li><a href="{% url 'fiction' 1 %}">前端</a></li>
+						<li><a href="{% url 'fiction' 2 %}">后台</a></li>
+						<li><a href="{% url 'fiction' 3 %}">服务器</a></li>
+						<li><a href="{% url 'fiction' 4 %}">其他</a></li>
 					</ul>
 				</div>
 			</div>
 		</nav>
 		<article>
-			<aside>
-				<ul>
-					<li><a href=""><input type="radio" value="0" name="order">hot</a></li>
-					<li><a href=""><input type="radio" value="1" name="order">credit</a></li>
-				</ul>
-			</aside>
 			<section class="content clearfix">
 				<div>
 					{% block content %}
@@ -63,8 +58,8 @@
 		list-style: none;
 	}
 	.content {
-		float: left;
-		margin-left: 80px;
-		margin-top: -55px;
+		/*float: left;*/
+		margin: 0px 80px;
+		/*margin-top: -55px;*/
 	}
 </style>

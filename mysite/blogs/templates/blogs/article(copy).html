@@ -20,9 +20,9 @@
                 <strong><em>django blogs</em></strong>
                 <span>
                     {% if request.session.email %}
-                        [<a href="/accounts/blog">个人中心</a>] 
+                        [<a href="/accounts/blog">personal center</a>] 
                     {% else %}
-                        [<a href="/accounts/login">登录</a>*<a href="/accounts/register">注册</a>] 
+                        [<a href="/accounts/login">login</a>*<a href="/accounts/register">register</a>] 
                     {% endif %}
                 </span>
             </div>
@@ -31,10 +31,10 @@
             <div class="container-fluid">
                 <div>
                     <ul class="nav navbar-nav navbar-inverse navbar-fixed-top">
-                        <li><a href="#">前端</a></li>
-                        <li><a href="#">后台</a></li>
-                        <li><a href="#">服务器</a></li>
-                        <li><a href="#">其他</a></li>
+                        <li><a href="#">FrontEnd</a></li>
+                        <li><a href="#">BackEnd</a></li>
+                        <li><a href="#">ServerEnd</a></li>
+                        <li><a href="#">Other</a></li>
                     </ul>
                 </div>
             </div>
@@ -57,25 +57,37 @@
                             give you help?
                         </a>
                         {{ article.hot }}
-                        
-                        <form action="{% url 'create_comment' article.id %}" method="post" accept-charset="utf-8">
+                        {% load comments %}
+
+                        {% get_comment_count for article as comment_count %}
+                        <p>Comments({{ comment_count }})</p>
+
+                        {% get_comment_form for article as form %}
+                        <form action="{% comment_form_target %}" method="post" accept-charset="utf-8">
                             {% csrf_token %}
-                            <textarea id="comment" name="comment"></textarea>
+                            <div>
+                                <!-- <label for="id_email">Email:</label> -->
+                                <input id="id_name" name="name" required="" type="hidden" value="test">
+                            </div>
+                            <div>
+                                <!-- <label for="id_email">Email:</label> -->
+                                <input id="id_email" name="email" required="" type="hidden" value="{{ request.session.email }}">
+                            </div>
+                            <div>
+                                <label for="id_comment">Comment:</label>
+                                {{ form.comment }}
+                            </div>
+                            {{ form.content_type }}
+                            {{ form.object_pk }}
+                            {{ form.timestamp }}
+                            {{ form.security_hash }}
+                            <input type="hidden" name="next" value="/blogs/article/{{ article.id }}">
                             <input type="submit" value="Comment">
                         </form>
-                        <h4>评论:</h4>
-                        <dl id="comments">
-                        {% for i in comment %}
-                            <dt>
-                              {{ i.pub_date }} - {{ i.commentor }}
-                            </dt>
-                            <dd>
-                              <p>{{ i.comment }}</p>
-                            </dd>
-                        {% endfor %}
-                        </dl>
+                        <h4>comments</h4>
+                        {% render_comment_list for article %}
                     {% else %}
-                        <a href="/accounts/login">留言?</a>
+                        <a href="/accounts/login">leave</a>
                     {% endif %}
                 </div>
             </section>

@@ -15,24 +15,29 @@ from ckeditor.fields import RichTextField
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+class BlogType(models.Model):
+    blog_type = models.CharField(max_length=50, unique=True)
+    def __str__(self):
+        return self.blog_type
 class Blog(models.Model):
     """
     Description: Model Description
     """
     title = models.CharField(max_length=100)
     content = RichTextField()
-    # pub_date = models.DateTimeField('date published', default=timezone.now)
-    # mod_date = models.DateTimeField('date last modified', auto_now = True)
-    # author = models.ForeignKey(User, on_delete=models.CASCADE)
+    pub_date = models.DateTimeField('date published', default=timezone.now)
+    mod_date = models.DateTimeField('date last modified', auto_now = True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    published = models.BooleanField(default=False)
     hot = models.IntegerField(default=0)
-    scan = models.IntegerField(default=0)
+    blog_type = models.ForeignKey(BlogType, on_delete=models.CASCADE)
     def __str__(self):
     	return self.title
-# class Comment(models.Model):
-#     """
+class Comment(models.Model):
+    pub_date = models.DateTimeField('date published', default=timezone.now)
+    comment = models.CharField(max_length=300)
+    commentor = models.ForeignKey(User, on_delete=models.CASCADE)
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.comment
 
-#     """
-#     commentor = models.ForeignKey(User, on_delete=models.CASCADE)
-#     blogor =  
-    
-  
