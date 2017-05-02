@@ -6,12 +6,7 @@
         <link rel="stylesheet" type="text/css" href="{% static '/bootstrap/css/bootstrap.min.css'%}">
         <script type="text/javascript" src="{% static '/jquery-3.1.1.min.js' %}"></script>
         <script type="text/javascript" src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>
-        <style type="text/css">
-            @font-face {
-                font-family: 'Glyphicons Halflings';
-                src: url="{% static 'bootstrap/css/img/glyphicons-halflings.png' %}";
-            }
-        </style>
+        <script type="text/javascript" src="{% static '/ckeditor_basic/ckeditor.js' %}"></script>
     </head>
     <body>
 
@@ -31,10 +26,11 @@
             <div class="container-fluid">
                 <div>
                     <ul class="nav navbar-nav navbar-inverse navbar-fixed-top">
-                        <li><a href="#">前端</a></li>
-                        <li><a href="#">后台</a></li>
-                        <li><a href="#">服务器</a></li>
-                        <li><a href="#">其他</a></li>
+                        <li><a href="{% url 'articles' %}">所有</a></li>
+                        <li><a href="{% url 'fiction' 1 %}">前端</a></li>
+                        <li><a href="{% url 'fiction' 2 %}">后台</a></li>
+                        <li><a href="{% url 'fiction' 3 %}">服务器</a></li>
+                        <li><a href="{% url 'fiction' 4 %}">其他</a></li>
                     </ul>
                 </div>
             </div>
@@ -43,7 +39,7 @@
             <section class="content">
                 <div>
                     <div>
-                        <div><h2>{{article.title}}</h2></div>
+                        <div class="article-title"><h2>{{article.title}}</h2><div>作者:<a href="/accounts/account/{{article.email}}/">{{article.author}}</a>--时间:{{article.pub_date}}</div></div>
                         {% autoescape off %}
                             <div class="article-content">
                                 <p>{{article.content}}</p>
@@ -52,16 +48,18 @@
                     </div>
                     <hr/>
                     {% if request.session.email is not None %} 
-                        <a href="{% url 'good' article.id %}">
+                        <p>
+                            <a href="{% url 'good' article.id %}">
                             <span class="glyphicon glyphicon-heart"></span> 
-                            give you help?
+                            赞
                         </a>
                         {{ article.hot }}
+                        </p>
                         
                         <form action="{% url 'create_comment' article.id %}" method="post" accept-charset="utf-8">
                             {% csrf_token %}
-                            <textarea id="comment" name="comment"></textarea>
-                            <input type="submit" value="Comment">
+                            <textarea id="comment" name="editor1"></textarea>
+                            <input type="submit" value="提交" class="btn btn-primary pull-right" />
                         </form>
                         <h4>评论:</h4>
                         <dl id="comments">
@@ -70,7 +68,9 @@
                               {{ i.pub_date }} - {{ i.commentor }}
                             </dt>
                             <dd>
-                              <p>{{ i.comment }}</p>
+                                {% autoescape off %}
+                                <p>{{ i.comment }}</p>
+                                {% endautoescape %}
                             </dd>
                         {% endfor %}
                         </dl>
@@ -80,12 +80,22 @@
                 </div>
             </section>
         </article>
+        <script type="text/javascript">
+            CKEDITOR.replace( 'editor1' , {uiColor: '#9AB8F3'});
+        </script>
     </body>
 </html>
 <style type="text/css" media="screen">
+    html {
+        width: 100%;
+        height: 100%;
+    }
     body {
-        padding: 5px;
-        background-color: #7d8b8d;
+        /*background-color: #fff;*/
+        background: repeat url({% static '/image/aa.jpg'%});
+        background-origin: content-box;
+        width: 100%;
+        height: 100%;
     }
     a {
         text-decoration: none;
@@ -100,13 +110,15 @@
     dd {
         text-indent: 2em;
     }
-    .content {
-        /*position: relative;*/
-        margin: 0px 40px;
-        padding: 10px;
-        background-color: #fff;
+    .article-title {
+        display: flex;
+        justify-content: space-between;
+        line-height: 60px;
     }
     .article-content {
         text-indent: 2em;
+    }
+    .content {
+        margin:0 30px;
     }
 </style>

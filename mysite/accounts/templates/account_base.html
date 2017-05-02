@@ -29,7 +29,7 @@
 						<li><a href="/blogs/articles">首页</a></li>
 						<li><a href="{% url 'blog' %}">博客</a></li>
 						<li><a href="{% url 'information' %}">个人信息</a></li>
-						<li><a href="#">其他</a></li>
+						<li><a href="{% url 'query' %}">查询</a></li>
 					</ul>
 				</div>
 			</div>
@@ -51,6 +51,17 @@
     </body>
 </html>
 <style type="text/css" media="screen">
+	html {
+		width: 100%;
+		height: 100%;
+	}
+	body {
+		/*background-color: #fff;*/
+		background: repeat url({% static '/image/aa.jpg'%});
+		background-origin: content-box;
+		width: 100%;
+		height: 100%;
+	}
 	a {
 		text-decoration: none;
 	}

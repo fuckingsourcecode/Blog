@@ -1,39 +1,41 @@
 {% extends 'account_base.html' %}
 {% block content %}
 	<p>
-		
 			email:
 		<input type="email" name="email" id="email" class="form-control">
 		<input type="submit" valu="查询" style="margin-bottom: 9px;" name="" class="btn btn-primary" id="query">
 	</p>
-	<table class="table table-hover table-bordered">
-		<thead>
-			<tr>
-				<th>#</th>
-				<th>标题</th>
-				<th>类型</th>
-			</tr>
-		</thead>
-		<tbody id="blog-body">
-			
-		</tbody>
+	<p id="user-info">
+		
+	</p>
+	<table class="table table-hover" id="mytable">
 	</table>
+	<style type="text/css">
+		#user-info {
+			/*text-align: right;*/
+		}
+		#user-info span {
+			padding-left: 40px;
+		}
+	</style>
 	<script type="text/javascript">
 		window.onload = function() {
 			$('#query').on('click', function () {
-				$('#blog-body').empty();
+				$('#mytable').empty();
 				$.ajax({
 					type: 'GET',
 					url: '/accounts/queryemail',
 					data: {email: $('#email').val()},
 					success: function (response) {
 						// body...
+						console.log(response)
 						arr = JSON.parse(response);
-						str = ''
-						for(i=0; i<arr.length; i++){
-							str += '<tr><td>'+ i +'</td><td><a href="/blogs/article/'+ arr[i].id + '">'+ arr[i].title + '</a>' + '</td><td>'+ arr[i].blog_type +'</td></tr>'
+						$('#user-info').append('<p>email: <span>'+ arr[0].email+'</span></p><p>occupation: <span>'+ arr[0].occupation +'</span></p><p>address: <span>'+ arr[0].address+'</span></p><p>url: <span>'+ arr[0].url +'</span></p>')
+						str = '<thead><tr><th>#</th><th>标题</th><th>类型</th></tr></thead><tbody>'
+						for(i=0; i<arr[1].length; i++){
+							str += '<tr><td>'+ i +'</td><td><a href="/blogs/article/'+ arr[1][i].id + '">'+ arr[1][i].title + '</a>' + '</td><td>'+ arr[1][i].blog_type +'</td></tr></tbody>'
 						}
-						$('#blog-body').append(str);
+						$('#mytable').append(str);
 					},
 					error: function (response) {
 						// body...

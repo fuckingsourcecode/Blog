@@ -19,6 +19,7 @@ class BlogType(models.Model):
     blog_type = models.CharField(max_length=50, unique=True)
     def __str__(self):
         return self.blog_type
+        
 class Blog(models.Model):
     """
     Description: Model Description
@@ -29,6 +30,7 @@ class Blog(models.Model):
     mod_date = models.DateTimeField('date last modified', auto_now = True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     published = models.BooleanField(default=False)
+    summary = models.CharField(max_length=600)
     hot = models.IntegerField(default=0)
     blog_type = models.ForeignKey(BlogType, on_delete=models.CASCADE)
     def __str__(self):

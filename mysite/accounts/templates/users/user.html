@@ -1,0 +1,29 @@
+{% extends 'account_base.html'%}
+{% block content %}
+	<p>
+		<h4>email: <span>{{ user.email }}</span></h4>
+		<h4>occupation: <span>{{ user.occupation }}</span></h4>
+		<h4>address: <span>{{ user.address }}</span></h4>
+		<h4>url: <span>{{ user.url }}</span></h4>
+	</p>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>标题</th>
+				<th>类型</th>
+				<th>时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for value in blogs %}
+				<tr>
+					<td></td>
+					<td><a href="{% url 'article' value.id %}">{{ value.title }}</a></td>
+					<td>{{ value.blog_type }}</td>
+					<td>{{ value.pub_date }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

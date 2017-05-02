@@ -1,15 +1,15 @@
 {% extends 'account_base.html'%}
 {% block content%}
-	<a href="/blogs/create" class="btn btn-info">create</a>
+	<a href="/blogs/create" class="create">创建</a>
 	<table class="table table-hover table-bordered">
 		<thead>
 			<tr>
 				<th>#</th>
 				<th>标题</th>
 				<th>类型</th>
+				<th>时间</th>
 				<th>删除</th>
 				<th>更改</th>
-				<th>发布</th>
 			</tr>
 		</thead>
 		{% for value in blogs %}
@@ -17,12 +17,32 @@
 				<tr>
 					<td>{{ value.num }}</td>
 					<td><a href="/blogs/article/{{value.id}}">{{ value.title }}</a></td>
-					<td><a href="/blogs/article/{{value.id}}">{{ value.blog_type }}</a></td>
+					<td>{{ value.blog_type }}</td>
+					<td>{{ value.pub_date }}</td>
 					<td><a href="{% url 'delete' value.id %}">删除</a></td>
-					<td><a href="{% url 'update' value.id %}">更改</a></td>
 					<td><a href="{% url 'update' value.id %}">更改</a></td>
 				</tr>
 			</tbody>
 		{% endfor %}
 	</table>
+	<style type="text/css">
+		.create {
+			display: block;
+			width: 100px!important;
+			height: 100px!important;
+			position: fixed;
+    		bottom: 100px;
+    		right: 50px;
+			color: #fff;
+    		background-color: #08c;
+    		border-radius: 50%;
+    		text-align: center;
+    		line-height: 100px;
+    		font-size: 30px;
+    		text-decoration: none;
+		}
+		a:link, a:visited, a:hover, a:active {
+			text-decoration: none;
+		}
+	</style>
 {% endblock %}

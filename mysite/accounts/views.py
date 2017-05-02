@@ -9,12 +9,11 @@ from .models import User
 from django.contrib.auth.hashers import make_password, check_password
 from blogs.models import Blog, BlogType
 import json
-
 # login form
 class LoginForm(forms.Form):
 	"""docstring for LoginForm"""
 	email = forms.EmailField(label='邮箱', widget=forms.widgets.EmailInput(attrs={'class': 'form-control'}))
-	password = forms.CharField(label="password", widget=forms.widgets.PasswordInput(attrs={'class': 'form-control'}))
+	password = forms.CharField(label="密码", widget=forms.widgets.PasswordInput(attrs={'class': 'form-control'}))
 		
 # register form
 class RegisterForm(forms.Form):
@@ -155,7 +154,7 @@ def information(request):
 			url = form.cleaned_data['url']
 			address = form.cleaned_data['address']
 			occupation = form.cleaned_data['occupation']
-			user = User.objects.get(email__exact=email, password=old_pw)
+			user = User.objects.get(email__exact=request.session.get('email'))
 			if user:
 				user.email = email
 				user.mobile = mobile
@@ -166,24 +165,37 @@ def information(request):
 				request.session.email = user.email
 				return HttpResponseRedirect('/accounts/blog')
 	else:
-		form = InformationForm()
+		email = request.session.get('email')
+		user = User.objects.get(email = email)
+		form = InformationForm(initial={'email': user.email, 'address': user.address, 'occupation': user.occupation, 'url': user.url, 'mobile': user.mobile})
 	return render(request, 'users/information.html', {'form': form})
 
 def query(request):
-	
 	return render(request, 'users/query.html', {})
 
 def queryemail(request):
-	print request
 	if request.method == 'GET':
 		email = request.GET['email']
 		print email
 		user = User.objects.get(email=email)
+		print user.occupation, user.address, user.email, user.url
+		a=[]
+		du = {'email': user.email, 'occupation': user.occupation, 'url': user.url, 'address': user.address}
+		a.append(du)
 		blogs = Blog.objects.filter(author=user).values('id', 'title', 'blog_type')
 		for i in blogs:
 			print i['blog_type']
 			i['blog_type'] = BlogType.objects.get(id=i['blog_type']).blog_type
-		return HttpResponse(json.dumps(list(blogs)))
+		print a.append(list(blogs))
+		print a
+		return HttpResponse(json.dumps(a))
+
+def account(request, id):
+	print id
+	user = User.objects.get(id=id)
+	blogs = Blog.objects.filter(author=user)
+	return render(request, 'users/user.html', {'user': user, 'blogs': blogs})
+  
 
 
 

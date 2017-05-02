@@ -2,7 +2,7 @@
 # @Author: whistle
 # @Date:   2017-01-10 19:55:27
 # @Last Modified by:   fuckingsourcecode
-# @Last Modified time: 2017-04-29 15:56:16
+# @Last Modified time: 2017-04-30 14:58:03
 from django.conf.urls import url
 
 from . import views
