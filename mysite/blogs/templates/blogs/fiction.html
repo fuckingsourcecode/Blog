@@ -1,5 +1,9 @@
-{% extends 'blog_base.html' %}
+{% extends 'article_base.html' %}
 {% block content %}
+    <ul class="pull-left type-list">
+        <li><a href="{% url 'fiction' fiction %}" class="btn btn-warning btn-block">按日期排序</a></li>
+        <li><a href="{% url 'fictionorderby' fiction %}" class="btn btn-warning btn-block">按赞排序</a></li>
+    </ul>
     {% for value in blogs %}
         <article>
             <header class="article-title">
@@ -8,17 +12,30 @@
             </header>
             <section class="article-content">
                 <p>
-                    {% autoescape off %}
-                        {{ value.summary }}
-                    {% endautoescape %}
+                    {{ value.summary | striptags  }}
                 </p>
                 <p class="article-content-footer">
-                    <span><a href="{% url 'fiction' value.blog_type.id %}">{{ value.blog_type}}</a></span> 
+                    <span><a class="label label-primary" href="{% url 'fiction' value.blog_type.id %}">{{ value.blog_type}}</a></span> 
                     <span>赞:{{ value.hot }}</span>
                 </p>
             </section>
         </article>
         <style type="text/css">
+            .type-list {
+                /*margin-left: -70px;*/
+                position: fixed;
+                left: 5px;
+                top: 120px;
+            } 
+            .type-list li {
+                margin: 5px 0px;
+            }
+            .article-title, .article-content {
+                margin: 0 50px;
+            }
+            .article-title {
+                line-height: 50px;
+            }
             .article-title, .article-content-footer {
                 display: flex;
                 justify-content: space-between;

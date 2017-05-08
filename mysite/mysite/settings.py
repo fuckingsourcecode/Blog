@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-
+# import .utils
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -26,9 +26,9 @@ SECRET_KEY = '-d=d0=0s#ws+r@&(g24ijh%ft4(jn(4@yquvyt5r1mb-@g%3pc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'www.abc.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.111.131']
 
-
+DEFAULT_CHARSET = 'UTF-8'
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,9 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_comments',
     'ckeditor',
     'ckeditor_uploader',
+    'captcha',
     'blogs',
     'accounts',
 ]
@@ -51,12 +51,12 @@ SITE_ID=1
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -118,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
 
-LANGUAGE_CODE = 'zh-hans'
+LANGUAGE_CODE = 'zh-cn'
 
 TIME_ZONE = 'Asia/Shanghai'
 
@@ -133,11 +133,26 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'resource')
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, 'static'),
 )
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 # ckeditor upload
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
 CKEDITOR_JQUERY_URL = '/static/jquery-3.1.1.min.js'
+CKEDITOR_RESTRICT_BY_USER = True
+CKEDITOR_BROWSE_SHOW_DIRS = True
+CKEDITOR_RESTRICT_BY_DATE = True
+CKEDITOR_FILENAME_GENERATOR = 'utils.getfilename'
+# email
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+  
+# EMAIL_USE_TLS = False
+# EMAIL_HOST = 'smtp.tuweizhong.com'
+# EMAIL_PORT = 25
+# EMAIL_HOST_USER = 'mail@tuweizhong.com'
+# EMAIL_HOST_PASSWORD = 'xxxx'
+# DEFAULT_FROM_EMAIL = 'mail@tuweizhong.com'

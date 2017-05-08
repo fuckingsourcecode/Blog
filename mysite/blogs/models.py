@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import datetime
 import sys
 from django.db import models
-from accounts.models import User
+from django.contrib.auth.models import User
 from django.utils import timezone
 
 # ckeditor
@@ -25,7 +25,7 @@ class Blog(models.Model):
     Description: Model Description
     """
     title = models.CharField(max_length=100)
-    content = RichTextField()
+    content = RichTextUploadingField()
     pub_date = models.DateTimeField('date published', default=timezone.now)
     mod_date = models.DateTimeField('date last modified', auto_now = True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -1,12 +1,9 @@
 {% extends 'account_base.html' %}
 {% block content %}
 	<p>
-			email:
+			邮箱:
 		<input type="email" name="email" id="email" class="form-control">
 		<input type="submit" valu="查询" style="margin-bottom: 9px;" name="" class="btn btn-primary" id="query">
-	</p>
-	<p id="user-info">
-		
 	</p>
 	<table class="table table-hover" id="mytable">
 	</table>
@@ -25,15 +22,14 @@
 				$.ajax({
 					type: 'GET',
 					url: '/accounts/queryemail',
-					data: {email: $('#email').val()},
+					data: {'email': $('#email').val()},
 					success: function (response) {
 						// body...
 						console.log(response)
 						arr = JSON.parse(response);
-						$('#user-info').append('<p>email: <span>'+ arr[0].email+'</span></p><p>occupation: <span>'+ arr[0].occupation +'</span></p><p>address: <span>'+ arr[0].address+'</span></p><p>url: <span>'+ arr[0].url +'</span></p>')
-						str = '<thead><tr><th>#</th><th>标题</th><th>类型</th></tr></thead><tbody>'
-						for(i=0; i<arr[1].length; i++){
-							str += '<tr><td>'+ i +'</td><td><a href="/blogs/article/'+ arr[1][i].id + '">'+ arr[1][i].title + '</a>' + '</td><td>'+ arr[1][i].blog_type +'</td></tr></tbody>'
+						str = '<thead><tr><th>#</th><th>标题</th><th>类型</th><th>赞</th></tr></thead><tbody>'
+						for(i=0; i<arr.length; i++){
+							str += '<tr><td>'+ i +'</td><td><a href="/blogs/article/'+ arr[i].id + '">'+ arr[i].title + '</a>' + '</td><td>'+ arr[i].blog_type + '</td><td>' + arr[i].pub_date + '</td><td>'+ arr[i].hot +'</td></tr></tbody>'
 						}
 						$('#mytable').append(str);
 					},

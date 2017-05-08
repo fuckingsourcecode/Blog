@@ -4,6 +4,12 @@
 	this project for blog, and has user, blog and admin models for service,
 if you want run it, please make suer you have mysql, config your mysql configration in settings.py
 '''
+# python2.7.12
+# Django 1.10.*
+# django-ckeditor
+# ckeditor_uploader
+# captcha
+
 1. sudo apt-get install python
 2. sudo apt-get intall pip
 3. sudo pip install django

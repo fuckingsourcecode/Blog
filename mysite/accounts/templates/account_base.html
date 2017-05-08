@@ -3,23 +3,37 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="{% static '/bootstrap/css/bootstrap.min.css'%}">
-        <script type="text/javascript" src="{%static '/jquery-3.1.1.min.js' %}"></script>
-        <script type="text/javascript" src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>
-        <script type="text/javascript" src="{% static '/ckeditor_full/ckeditor.js' %}"></script>
+           <link rel="stylesheet" type="text/css" href="{% static '/bootstrap/css/bootstrap.min.css'%}">
+            <script type="text/javascript" src="{% static '/jquery-3.1.1.min.js' %}"></script>
+            <script type="text/javascript" src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>
+            <script type="text/javascript" src="/static/ckeditor/ckeditor/ckeditor.js"></script><style>.cke{visibility:hidden;}</style>
+            <script type="text/javascript" src="/static/ckeditor/ckeditor-init.js"></script>
+            <script type="text/javascript" src="/static/ckeditor/ckeditor/config.js?t=GB8C"></script>
+            <link rel="stylesheet" type="text/css" href="/static/ckeditor/ckeditor/skins/moono-lisa/editor.css?t=GB8C">
+            <script type="text/javascript" src="/static/ckeditor/ckeditor/lang/en.js?t=GB8C"></script>
+            <script type="text/javascript" src="/static/ckeditor/ckeditor/styles.js?
+        t=GB8C"></script>
+            <link rel="stylesheet" type="text/css" href="/static/ckeditor/ckeditor/plugins/scayt/skins/moono-lisa/scayt.css">
+            <link rel="stylesheet" type="text/css" href="/static/ckeditor/ckeditor/plugins/wsc/skins/moono-lisa/wsc.css">
+            <link rel="stylesheet" type="text/css" href="/static/ckeditor/ckeditor/plugins/copyformatting/styles/copyformatting.css">
+            <script type="text/javascript" src="/static/ckeditor/ckeditor/plugins/image/dialogs/image.js?
+        t=GB8C"></script>
+            <link rel="stylesheet" type="text/css" href="/static/ckeditor/ckeditor/skins/moono-
+        lisa/dialog.css?t=GB8C">
     </head>
     <body>
-
 		<header id="header" class="">
 			<div>
-				<strong><em>django blogs</em></strong>
-				<span>
-                    {% if request.session.email %}
-                        [<a href="/accounts/logout">注销</a>] 
-                    {% else %}
-                        [<a href="/accounts/login">登录</a>*<a href="/accounts/register">注册</a>] 
-                    {% endif %}
-                </span>
+				<h3>
+					<strong><em>django blogs</em></strong>
+					<span>
+	                    {% if request.session.username %}
+	                        <a href="/accounts/logout" class="btn btn-success">注销</a> 
+	                    {% else %}
+	                        <a href="/accounts/login" class="btn btn-primary" style="margin-right: 5px">登录</a><a href="/accounts/register" class="btn btn-warning">注册</a>
+	                    {% endif %}
+	                </span>
+                </h3>
 			</div>
 		</header><!-- /header -->
 		<nav class="navbar navbar-default">
@@ -65,9 +79,16 @@
 	a {
 		text-decoration: none;
 	}
-	#header div {
+	#header div h3 {
 		display: flex;
+		padding: 5px;
 		justify-content: space-between;
+	}
+	#header  strong {
+		transition:All 3s ease-in-out;
+	}
+	#header  strong:hover {
+		transform: rotate(360deg)!important;
 	}
 	li {
 		list-style: none;

@@ -1,9 +1,21 @@
-{% extends 'account_base.html' %}
+{% extends 'user_info.html' %}
 {% block content %}
-	<form action="" method="post" accept-charset="utf-8">
-		{% csrf_token %}
-		{{ form.as_p }}
-		<input type="submit" class="btn btn-default" value="创建一个账号">
-        <a href="{% url 'login' %}">已经拥有一个账号?</a>
-	</form>
+	<div class="content">
+		<form action="" method="post" accept-charset="utf-8">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<input type="submit" class="btn btn-default" value="创建一个账号">
+	        <a href="{% url 'login' %}">已拥有账号?</a>
+	        <a href="{% url 'articles' %}">主站</a>
+	        <script type="text/javascript">
+		    	$('.captcha').click(function(){
+	        		console.log('click');
+	         		$.getJSON("/captcha/refresh/", function(result){
+	             		$('.captcha').attr('src', result['image_url']);
+	             		$('#id_captcha_0').val(result['key'])
+	          		});
+	          	});
+		    </script>
+		</form>
+	</div>
 {% endblock %}

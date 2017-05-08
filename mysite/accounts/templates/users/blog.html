@@ -1,5 +1,11 @@
 {% extends 'account_base.html'%}
 {% block content%}
+	<ul class="pull-left type-list">
+		<li><a href="{% url 'blog' %}" class="btn btn-warning btn-block">所有</a></li>
+		{% for value in fiction %}
+			<li><a href="#" onclick="change({{ value.id }})" class="btn btn-warning btn-block">{{ value.blog_type }}</a></li>
+		{% endfor %}
+	</ul>
 	<a href="/blogs/create" class="create">创建</a>
 	<table class="table table-hover table-bordered">
 		<thead>
@@ -10,10 +16,12 @@
 				<th>时间</th>
 				<th>删除</th>
 				<th>更改</th>
+				<th>赞</th>
+				<th>未读评论数</th>
 			</tr>
 		</thead>
+		<tbody id="content">
 		{% for value in blogs %}
-			<tbody>
 				<tr>
 					<td>{{ value.num }}</td>
 					<td><a href="/blogs/article/{{value.id}}">{{ value.title }}</a></td>
@@ -21,9 +29,11 @@
 					<td>{{ value.pub_date }}</td>
 					<td><a href="{% url 'delete' value.id %}">删除</a></td>
 					<td><a href="{% url 'update' value.id %}">更改</a></td>
+					<td><a href="#">{{ value.hot }}</a></td>
+					<td>{{ value.count }}</td>
 				</tr>
-			</tbody>
 		{% endfor %}
+		</tbody>
 	</table>
 	<style type="text/css">
 		.create {
@@ -44,5 +54,34 @@
 		a:link, a:visited, a:hover, a:active {
 			text-decoration: none;
 		}
+		.type-list {
+			margin-left: -70px;
+		}
+		.type-list li {
+			margin: 5px 0px;
+		}
 	</style>
+	<script type="text/javascript">
+		function change(id) {
+			$('#content').empty();
+			$.ajax({
+				type: 'GET',
+				url: "/accounts/getfictionblog",
+				data: {'id': id},
+				success: function (response) {
+					console.log(response)
+					arr = JSON.parse(response)
+					console.log(arr)
+					str = ''
+					for(i=0; i<arr.length; i++){
+						str += '<tr><td>'+ i +'</td><td><a href="/blogs/article/'+ arr[i].id + '">'+ arr[i].title + '</a>' + '</td><td>'+ arr[i].blog_type + '</td><td>'+ arr[i].pub_date + '</td><td><a href="/blogs/delete/' + arr[i].id + '">删除</td><td><a href="/blogs/update/' +   arr[i].id + '">更改</td><td>'+ arr[i].hot +'</td></tr></tbody>'
+					}
+					$('#content').append(str);
+				},
+				error: function (response) {
+					console.log(response)
+				}
+			});
+		}
+	</script>
 {% endblock %}
