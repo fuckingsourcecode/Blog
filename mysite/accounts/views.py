@@ -21,29 +21,29 @@ sys.setdefaultencoding('utf-8')
 # login form
 class LoginForm(forms.Form):
 	"""docstring for LoginForm"""
-	username = forms.CharField(label='用户名', widget=forms.widgets.TextInput(attrs={'class': 'form-control'}))
-	password = forms.CharField(label="密码", widget=forms.widgets.PasswordInput(attrs={'class': 'form-control'}))
+	username = forms.CharField(label='用户名', widget=forms.widgets.TextInput(attrs={'class': 'form-control'}), required=True)
+	password = forms.CharField(label="密码", widget=forms.widgets.PasswordInput(attrs={'class': 'form-control'}), required=True)
 	captcha = CaptchaField(error_messages={"invalid": u"验证码错误"})
 		
 # register form
 class RegisterForm(forms.Form):
 	"""docstring for RegisterForm"""
-	username = forms.CharField(label='用户名', widget=forms.widgets.TextInput(attrs={'class': 'form-control'}))
-	email = forms.EmailField(label='邮箱', widget=forms.widgets.EmailInput(attrs={'class': 'form-control'}))
-	password = forms.CharField(label='密码', widget=forms.widgets.PasswordInput(attrs={'class': 'form-control'}))
-	confirm_password = forms.CharField(label='确认密码', widget=forms.widgets.PasswordInput(attrs={'class': 'form-control'}))
+	username = forms.CharField(label='用户名', widget=forms.widgets.TextInput(attrs={'class': 'form-control'}), required=True)
+	email = forms.EmailField(label='邮箱', widget=forms.widgets.EmailInput(attrs={'class': 'form-control'}), required=True)
+	password = forms.CharField(label='密码', widget=forms.widgets.PasswordInput(attrs={'class': 'form-control'}), required=True)
+	confirm_password = forms.CharField(label='确认密码', widget=forms.widgets.PasswordInput(attrs={'class': 'form-control'}), required=True)
 	# mobile = forms.CharField(label='手机', widget=forms.widgets.TextInput(attrs={'class': 'form-control'}))
 	captcha = CaptchaField(error_messages={"invalid": u"验证码错误"})
 
 # modify password		
 class ChangepwForm(forms.Form):
 	"""docstring for ClassName"""
-	old_pw = forms.CharField(label='原始密码', widget=forms.widgets.PasswordInput(attrs={'class': 'form-control'}))
-	new_pw = forms.CharField(label='密码', widget=forms.widgets.PasswordInput(attrs={'class': 'form-control'}))
-	new_confirm_pw = forms.CharField(label='确认密码', widget=forms.widgets.PasswordInput(attrs={'class': 'form-control'}))
+	old_pw = forms.CharField(label='原始密码', widget=forms.widgets.PasswordInput(attrs={'class': 'form-control'}), required=True)
+	new_pw = forms.CharField(label='密码', widget=forms.widgets.PasswordInput(attrs={'class': 'form-control'}), required=True)
+	new_confirm_pw = forms.CharField(label='确认密码', widget=forms.widgets.PasswordInput(attrs={'class': 'form-control'}), required=True)
 # self information
 class InformationForm(forms.Form):
-	email = forms.EmailField(label='邮箱', widget=forms.widgets.EmailInput(attrs={'class': 'form-control'}))
+	email = forms.EmailField(label='邮箱', widget=forms.widgets.EmailInput(attrs={'class': 'form-control'}), required=True)
 	# mobile = forms.CharField(label='手机', widget=forms.widgets.TextInput(attrs={'class': 'form-control'}))
 	# occupation = forms.CharField(label='职业', widget=forms.widgets.TextInput(attrs={'class': 'form-control'}))
 	# address = forms.CharField(label='地址', widget=forms.widgets.TextInput(attrs={'class': 'form-control'})) 

@@ -1,6 +1,9 @@
 {% extends 'user_info.html' %}
 {% block content %}
 <div class="content">
+	{% for i in error %}
+		<p style="color:red">{{ i }}</p>
+	{% endfor %}
 	<div>
 		<form action="" method="post" accept-charset="utf-8">
 			{% csrf_token %}

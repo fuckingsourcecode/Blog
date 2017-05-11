@@ -4,6 +4,6 @@
 		{% csrf_token %}
 		{{ form.as_p }}
 		<input class="btn btn-primary"  type="submit" value="提交" />
-		<a href="{% url 'changepassword' %}">修改密码</a>
+		<a href="/admin/password_change/">修改密码</a>
 	</form>
 {% endblock %}

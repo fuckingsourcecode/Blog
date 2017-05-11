@@ -1,0 +1,26 @@
+{% extends 'account_base.html' %}
+{% block content %}
+	{% for value in error %}
+		<p style="color:red">{{value}}</p>
+	{% endfor %}
+	<p>离上次登录多了{{num}}条私信</p>
+	<style type="text/css">
+		dt {
+			display: flex;
+			justify-content: space-between;
+		}
+		dd p {
+			text-indent: 2em;
+		}
+	</style>
+	<form accept-charset="utf-8" method="post" action="">
+		{{ form.as_p }}
+		<input type="submit" value="submit" name="">
+	</form>
+	{% for value in messages %}
+		<dl>
+			<dt><span>发送方:{{value.sender}}</span> <span>接收方:{{value.acceptor}}</span> <span>发送时间:{{value.pub_date}}</span></dt>
+			<dd>内容:<p>{{value.content}}</p></dd>
+		</dl>
+	{% endfor %}
+{% endblock %}

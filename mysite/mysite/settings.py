@@ -26,7 +26,7 @@ SECRET_KEY = '-d=d0=0s#ws+r@&(g24ijh%ft4(jn(4@yquvyt5r1mb-@g%3pc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.111.131']
+ALLOWED_HOSTS = ['*']
 
 DEFAULT_CHARSET = 'UTF-8'
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'captcha',
     'blogs',
     'accounts',
+    'message',
 ]
 
 SITE_ID=1

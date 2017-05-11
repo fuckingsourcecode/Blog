@@ -24,7 +24,7 @@ class CreateForm(forms.Form):
 	c= []
 	for i in bt:
 		c.append((i.id, i.blog_type))
-	blog_type = forms.IntegerField(label='类型', widget=forms.Select(choices=c, attrs={'class': 'form-control'}))
+	blog_type = forms.IntegerField(label='类型', widget=forms.Select(choices=c, attrs={'class': 'form-control'}), required=True)
 	summary = forms.CharField(label='简介(可不填写)', widget=forms.widgets.Textarea(attrs={'class': 'form-control', 'rows': 3, 'style': 'width:98%;resize:none;'}),required=False)
 	content = RichTextUploadingField()
 
