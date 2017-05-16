@@ -165,10 +165,7 @@ def blog(request):
 	fiction = BlogType.objects.all()
 	for i in range(0, len(blogs)):
 		blogs[i].num = i
-		print request.session.get('username')
-		blogs[i].count = (Comment.objects.filter(blog=blogs[i], pub_date__gte=json.loads(request.session.get('last_login')))).count()
-		print author.last_login
-		# blog[i].count = 1
+		blogs[i].count = (Comment.objects.filter(blog=blogs[i], pub_date__gt=json.loads(request.session.get('last_login')))).count()
 	return render(request, 'users/blog.html', {'blogs': blogs, 'fiction': fiction})
 @login_required 
 def information(request):	
@@ -223,7 +220,8 @@ def getfictionblog(request):
 		user = User.objects.get(username=request.session.get('username'))
 		blogs = Blog.objects.filter(author=user, blog_type=id).order_by('-pub_date').values('id', 'title', 'blog_type', 'hot', 'pub_date')
 		for i in blogs:
-			print i['blog_type']
+			print i['id']
+			i['count'] = (Comment.objects.filter(blog=Blog.objects.get(id=i['id']), pub_date__gt=json.loads(request.session.get('last_login')))).count()
 			i['blog_type'] = BlogType.objects.get(id=i['blog_type']).blog_type
 		return HttpResponse(json.dumps(list(blogs), cls=DjangoJSONEncoder))
   
